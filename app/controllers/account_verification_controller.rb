@@ -38,8 +38,12 @@ class AccountVerificationController < ApplicationController
   def update
     # binding.pry
     
-    if Account.find(params[:id].to_i).update(verification_status: 1)
-      format.html { redirect_to account_verification_index_url(@account_verification_documents ), notice: "Your status is pending." }
+    respond_to do |format|
+      if Account.find(params[:id].to_i).update(verification_status: 1)
+        format.html { redirect_to account_verification_index_url(@account_verification_document), notice: "Your status is pending." }
+        format.json { render :show, status: :ok, location: @account_verification_document }
+
+      end
     end
  #   respond_to do |format|
       #if @account_verification_document.update(account_verification_document_params)

@@ -22,30 +22,30 @@ class AccountVerificationDocumentsController < ApplicationController
 
   # POST /account_verification_documents or /account_verification_documents.json
   def create
-    #@account_verification_document = AccountVerificationDocument.new(account_verification_document_params)
-    Services::AccountVerificationDocument::LoadFiles.new(account_verification_document: params, account: Account.last)
-#    @account_verification_document.save
-    #respond_to do |format|
-      #if @account_verification_document.save
+    @account_verification_document = AccountVerificationDocument.find_by(account_id: Account.last.id, file_id: params[:file_id].to_i)
+    if @account_verification_document
+      binding.pry
+      update
+    else
+      respond_to do |format|
+        Services::AccountVerificationDocument::LoadFiles.new(account_verification_document: params, account: Account.last).create
+        #if @account_verification_document.save
         #format.html { redirect_to account_verification_document_url(@account_verification_document), notice: "Account verification document was successfully created." }
         #format.json { render :show, status: :created, location: @account_verification_document }
-      #else
-        #format.html { render :new, status: :unprocessable_entity }
+        #else
         #format.json { render json: @account_verification_document.errors, status: :unprocessable_entity }
-      #end
-    #end
+        format.html { redirect_to new_account_verification_url, notice: "Account verification document was successfully created." }
+        #end
+      end
+    end
   end
 
   # PATCH/PUT /account_verification_documents/1 or /account_verification_documents/1.json
   def update
     respond_to do |format|
-      if @account_verification_document.update(account_verification_document_params)
-        format.html { redirect_to account_verification_document_url(@account_verification_document), notice: "Account verification document was successfully updated." }
-        format.json { render :show, status: :ok, location: @account_verification_document }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @account_verification_document.errors, status: :unprocessable_entity }
-      end
+      binding.pry
+      @account_verification_document.update(account_verification_document_params)
+      format.html { redirect_to new_account_verification_url, notice: "Account verification document was successfully created." }
     end
   end
 
@@ -60,10 +60,13 @@ class AccountVerificationDocumentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_account_verification_document
-      @account_verification_document = AccountVerificationDocument.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_account_verification_document
+    @account_verification_document = AccountVerificationDocument.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
+  # Only allow a list of trusted parameters through.
+  def account_verification_document_params    
+    params.require(:account_verification_document).permit(:file)
+  end
 end

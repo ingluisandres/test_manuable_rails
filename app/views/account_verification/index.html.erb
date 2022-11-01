@@ -14,11 +14,7 @@
   <tbody>
     <% @account_verification_documents.each do |account_verification_document| %>
       <tr>
-        <td><%= account_verification_document.title %></td>
         <td><%= account_verification_document.file_data %></td>
-        <td><%= link_to 'Show', account_verification_document %></td>
-        <td><%= link_to 'Edit', edit_account_verification_document_path(account_verification_document) %></td>
-        <td><%= link_to 'Destroy', account_verification_document, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +22,4 @@
 
 <br>
 
-<%= link_to 'New Account Verification Document', new_account_verification_document_path %>
+<%= link_to 'New Account Verification Document', new_account_verification_path %>
