@@ -36,6 +36,11 @@ class AccountVerificationController < ApplicationController
 
   # PATCH/PUT /account_verification_documents/1 or /account_verification_documents/1.json
   def update
+    # binding.pry
+    
+    if Account.find(params[:id].to_i).update(verification_status: 1)
+      format.html { redirect_to account_verification_index_url(@account_verification_documents ), notice: "Your status is pending." }
+    end
  #   respond_to do |format|
       #if @account_verification_document.update(account_verification_document_params)
         #format.html { redirect_to account_verification_document_url(@account_verification_document), notice: "Account verification document was successfully updated." }

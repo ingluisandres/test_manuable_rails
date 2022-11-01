@@ -23,7 +23,7 @@ class AccountVerificationDocumentsController < ApplicationController
   # POST /account_verification_documents or /account_verification_documents.json
   def create
     #@account_verification_document = AccountVerificationDocument.new(account_verification_document_params)
-    Services::AccountVerificationDocument::LoadFiles.new(params)
+    Services::AccountVerificationDocument::LoadFiles.new(account_verification_document: params, account: Account.last)
 #    @account_verification_document.save
     #respond_to do |format|
       #if @account_verification_document.save
@@ -66,7 +66,4 @@ class AccountVerificationDocumentsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def account_verification_document_params
-      params.require(:account_verification_document).permit(:file)
-    end
 end

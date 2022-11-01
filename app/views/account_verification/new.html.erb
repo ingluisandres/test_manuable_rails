@@ -3,3 +3,6 @@
 <%= render 'form', account_verification_document: @account_verification_document %>
 
 <%= link_to 'Back', account_verification_index_path %>
+
+<%= link_to 'Crear lote de guías', account_verification_path(id: Account.last.id), 
+class: 'btn btn-primary-manuable rounded-pill fs-5', role: 'button', method: :put %>
